@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CARTER PC NEGOTIATOR 9000</title>
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#070707;
+color:#fff;
+overflow-x:hidden;
+}
+body:before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at 50% 20%,#2b1616,transparent 35%),
+radial-gradient(circle at 10% 90%,#171717,transparent 35%);
+pointer-events:none;
+z-index:-2;
+}
+.noise{
+position:fixed;
+inset:0;
+opacity:.025;
+pointer-events:none;
+z-index:50;
+background-image:url("https://grainy-gradients.vercel.app/noise.svg");
+}
+header{
+padding:30px 20px 15px;
+text-align:center;
+}
+.logo{
+font-size:clamp(32px,7vw,75px);
+font-weight:1000;
+letter-spacing:-5px;
+line-height:.9;
+}
+.logo span{color:#ff3d3d}
+.tag{
+margin-top:15px;
+color:#777;
+font-size:13px;
+letter-spacing:2px;
+}
+.container{
+width:min(1100px,92%);
+margin:auto;
+}
+.panel{
+background:rgba(255,255,255,.055);
+border:1px solid #292929;
+border-radius:25px;
+box-shadow:0 25px 80px #000;
+backdrop-filter:blur(15px);
+}
+.hero{
+margin-top:20px;
+padding:35px;
+display:grid;
+grid-template-columns:330px 1fr;
+gap:45px;
+align-items:center;
+}
+.carter{
+width:100%;
+filter:drop-shadow(0 20px 40px #000);
+transition:.3s;
+}
+.carter:hover{
+transform:rotate(-2deg) scale(1.03);
+}
+.status{
+font-family:monospace;
+font-size:12px;
+color:#777;
+margin-bottom:10px;
+}
+h1{
+font-size:48px;
+line-height:.9;
+margin:0 0 15px;
+letter-spacing:-3px;
+}
+.description{
+color:#999;
+line-height:1.6;
+}
+button{
+border:0;
+padding:14px 18px;
+border-radius:12px;
+font-weight:900;
+cursor:pointer;
+margin:5px;
+transition:.15s;
+}
+button:hover{
+transform:translateY(-2px);
+}
+button:active{
+transform:scale(.95);
+}
+.primary{
+background:#ff4040;
+color:white;
+}
+.secondary{
+background:#222;
+color:white;
+border:1px solid #333;
+}
+.meter{
+margin-top:25px;
+}
+.meter-top{
+display:flex;
+justify-content:space-between;
+font-size:12px;
+color:#777;
+}
+.track{
+height:15px;
+background:#181818;
+border-radius:20px;
+overflow:hidden;
+margin-top:8px;
+}
+.fill{
+height:100%;
+width:7%;
+background:linear-gradient(90deg,#ff3030,#ff7a4a);
+transition:.5s;
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+margin:15px 0;
+}
+.box{
+padding:22px;
+min-height:180px;
+}
+.box h2{
+font-size:17px;
+margin:0 0 10px;
+}
+.box p{
+color:#777;
+font-size:13px;
+line-height:1.5;
+}
+.big-number{
+font-size:38px;
+font-weight:1000;
+margin:15px 0;
+}
+.console{
+margin:15px 0;
+padding:20px;
+font-family:monospace;
+font-size:13px;
+color:#8d8d8d;
+min-height:170px;
+}
+.line{
+margin:7px 0;
+}
+.green{color:#69ff91}
+.red{color:#ff5757}
+.yellow{color:#ffd45a}
+.pc{
+margin:15px 0;
+padding:25px;
+text-align:center;
+}
+.pc-screen{
+height:240px;
+border:2px solid #252525;
+border-radius:18px;
+background:
+radial-gradient(circle,#292929,#080808 65%);
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+overflow:hidden;
+}
+.pc-screen img{
+width:190px;
+max-width:60%;
+opacity:.25;
+}
+.pc-text{
+position:absolute;
+font-family:monospace;
+font-size:15px;
+color:#fff;
+}
+.secret{
+display:none;
+margin-top:15px;
+padding:25px;
+text-align:center;
+border:1px solid #ff4040;
+}
+.secret h2{
+font-size:35px;
+margin:0;
+}
+#toast{
+position:fixed;
+bottom:25px;
+left:50%;
+transform:translate(-50%,120px);
+background:#fff;
+color:#111;
+padding:15px 22px;
+border-radius:13px;
+font-weight:900;
+z-index:100;
+transition:.3s;
+box-shadow:0 15px 50px #000;
+text-align:center;
+}
+#toast.show{
+transform:translate(-50%,0);
+}
+.face{
+position:fixed;
+width:110px;
+z-index:30;
+pointer-events:none;
+animation:fall 3s linear forwards;
+}
+@keyframes fall{
+0%{transform:translateY(-150px) rotate(0deg)}
+100%{transform:translateY(110vh) rotate(500deg)}
+}
+footer{
+text-align:center;
+padding:40px 20px;
+color:#333;
+font-size:11px;
+}
+@media(max-width:800px){
+.hero{
+grid-template-columns:1fr;
+text-align:center;
+}
+.grid{
+grid-template-columns:1fr;
+}
+h1{
+font-size:40px;
+}
+}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<header>
+<div class="logo">CARTER <span>PC</span> NEGOTIATOR</div>
+<div class="tag">AUTOMATED SYSTEM FOR ACQUIRING ONE DAMN PC</div>
+</header>
+<div class="container">
+<section class="panel hero">
+<img class="carter" src="https://niamnangalia.github.io/carter.png">
+<div>
+<div class="status">
+SYSTEM STATUS: <span class="green">ONLINE</span>
+</div>
+<h1>WE NEED A PC.</h1>
+<p class="description">
+This is an advanced negotiation system designed to convince Carter
+to give me a PC. Unfortunately, it has been running for several
+minutes and has developed opinions.
+</p>
+<button class="primary" onclick="negotiate()">
+NEGOTIATE WITH CARTER
+</button>
+<button class="secondary" onclick="bribe()">
+OFFER A BRIBE
+</button>
+<div class="meter">
+<div class="meter-top">
+<span>CARTER'S CHANCE OF GIVING ME A PC</span>
+<b id="chance">7%</b>
+</div>
+<div class="track">
+<div class="fill" id="fill"></div>
+</div>
+</div>
+</div>
+</section>
+<div class="grid">
+<section class="panel box">
+<h2>CARter RESPONSE</h2>
+<div class="big-number" id="response">...</div>
+<p id="responseText">
+Waiting for Carter to acknowledge the website.
+</p>
+</section>
+<section class="panel box">
+<h2>PC FUND</h2>
+<div class="big-number">$<span id="money">0</span></div>
+<p>
+Money mysteriously disappears every time this button is pressed.
+</p>
+<button class="secondary" onclick="fund()">
+ADD MONEY
+</button>
+</section>
+<section class="panel box">
+<h2>DAILY WEBSITE COUNT</h2>
+<div class="big-number" id="days">1</div>
+<p>
+Another day. Another website. Another opportunity for Carter
+to pretend he didn't see this.
+</p>
+</section>
+</div>
+<section class="panel console">
+<div class="line green">CARTER_OS v0.0001</div>
+<div class="line">Initializing negotiation engine...</div>
+<div class="line">Loading Carter image...</div>
+<div class="line">Loading more Carter image...</div>
+<div class="line">Why is there so much Carter?</div>
+<div class="line yellow" id="consoleLine">
+Waiting for user input...
+</div>
+</section>
+<section class="panel pc">
+<h2>THE PC THAT COULD BE YOURS</h2>
+<div class="pc-screen">
+<img src="https://niamnangalia.github.io/carter.png">
+<div class="pc-text" id="pcText">
+PC STATUS: IMAGINARY
+</div>
+</div>
+<br>
+<button class="primary" onclick="buildPC()">
+BUILD MY PC
+</button>
+<button class="secondary" onclick="explode()">
+DO NOT PRESS
+</button>
+</section>
+<section class="panel secret" id="secret">
+<h2>CARter has surrendered.</h2>
+<p>
+The negotiation system has determined that the only logical
+solution is to give Niam a PC.
+</p>
+<button class="primary" onclick="victory()">
+ACCEPT THE PC
+</button>
+</section>
+</div>
+<footer>
+Carter PC Negotiator 9000™ • Made instead of buying a PC • Day 1
+</footer>
+<div id="toast"></div>
+<script>
+let chance=7;
+let money=0;
+let negotiations=0;
+const responses=[
+["NO","Carter has declined your request."],
+["MAYBE","Carter is thinking about it."],
+["BRO","Carter has seen the website."],
+["INTERESTING","Carter is concerned."],
+["STOP","Carter has asked why you keep doing this."],
+["FINE","Something may be happening."],
+["WAIT","Carter is typing..."],
+["WHAT","Carter has discovered the website."]
+];
+function toast(text){
+const t=document.getElementById("toast");
+t.textContent=text;
+t.classList.add("show");
+setTimeout(()=>{
+t.classList.remove("show");
+},2200);
+}
+function negotiate(){
+negotiations++;
+chance+=Math.floor(Math.random()*9)+2;
+if(chance>99)chance=99;
+document.getElementById("chance").textContent=chance+"%";
+document.getElementById("fill").style.width=chance+"%";
+let r=responses[Math.floor(Math.random()*responses.length)];
+document.getElementById("response").textContent=r[0];
+document.getElementById("responseText").textContent=r[1];
+document.getElementById("consoleLine").textContent=
+"Negotiation attempt #"+negotiations+
+" completed. Results: "+r[0];
+if(chance>70){
+toast("CARTER IS STARTING TO CRACK.");
+}
+if(chance>=99){
+document.getElementById("secret").style.display="block";
+toast("NEGOTIATION SUCCESSFUL.");
+}
+}
+function bribe(){
+let things=[
+"$5 and a firm handshake.",
+"A lifetime supply of absolutely nothing.",
+"One extremely convincing website.",
+"Exposure.",
+"A website made every day until surrender.",
+"Emotional damage.",
+"Pizza.",
+"One million imaginary dollars."
+];
+toast(
+"BRIBE OFFERED: "+
+things[Math.floor(Math.random()*things.length)]
+);
+chance+=4;
+if(chance>99)chance=99;
+document.getElementById("chance").textContent=chance+"%";
+document.getElementById("fill").style.width=chance+"%";
+}
+function fund(){
+money+=Math.floor(Math.random()*51)+10;
+document.getElementById("money").textContent=money;
+toast(
+"PC fund increased by $"+
+money+
+". Unfortunately this is not your actual bank account."
+);
+}
+function buildPC(){
+const builds=[
+"RTX 5090 // RYZEN 9 // 64GB",
+"RTX 5080 // 9800X3D // 32GB",
+"RTX 5070 Ti // 7800X3D // 32GB",
+"THE CARTER EDITION™",
+"THE PC YOU SHOULD HAVE BEEN GIVEN"
+];
+let build=builds[Math.floor(Math.random()*builds.length)];
+document.getElementById("pcText").textContent=
+"PC STATUS: "+build;
+toast("PC GENERATED. DELIVERY: SOMEHOW.");
+}
+function explode(){
+toast("YOU HAVE MADE A TERRIBLE MISTAKE.");
+document.body.animate([
+{transform:"translateX(0)"},
+{transform:"translateX(-12px)"},
+{transform:"translateX(12px)"},
+{transform:"translateX(-8px)"},
+{transform:"translateX(0)"}
+],{duration:500});
+spawnFaces();
+}
+function spawnFaces(){
+for(let i=0;i<18;i++){
+setTimeout(()=>{
+let img=document.createElement("img");
+img.src="https://niamnangalia.github.io/carter.png";
+img.className="face";
+img.style.left=Math.random()*100+"vw";
+img.style.animationDuration=(2+Math.random()*3)+"s";
+img.style.width=(60+Math.random()*130)+"px";
+document.body.appendChild(img);
+setTimeout(()=>img.remove(),5000);
+},i*100);
+}
+}
+function victory(){
+toast("PC ACQUIRED. WEBSITE #2 IS NOW UNNECESSARY.");
+for(let i=0;i<40;i++){
+setTimeout(spawnFaces,i*40);
+}
+document.getElementById("pcText").textContent=
+"PC STATUS: CARTER HAS FINALLY GIVEN UP";
+}
+document.addEventListener("keydown",e=>{
+if(e.key.toLowerCase()==="c"){
+toast("CARTER KEY DETECTED.");
+spawnFaces();
+}
+if(e.key.toLowerCase()==="p"){
+negotiate();
+}
+});
+</script>
+</body>
+</html>
